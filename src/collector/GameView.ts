@@ -80,21 +80,15 @@ export class GameView extends Sprite
 
 		for (var usedTile of this.usedTiles)
 		{
-
 			if (usedTile.removed && usedTile.parent == null && usedTile.type == type)
 			{
-
 				tile = usedTile;
-
 			}
-
 		}
 
 		if (tile == null)
 		{
-
 			tile = new Tile(GameView.tileImages[type]);
-
 		}
 
 		tile.initialize();
@@ -108,7 +102,6 @@ export class GameView extends Sprite
 
 		if (animate)
 		{
-
 			var firstPosition = this.getPosition(-1, column);
 
 			tile.alpha = 0;
@@ -120,25 +113,21 @@ export class GameView extends Sprite
 
 		} else
 		{
-
 			tile.x = position.x;
 			tile.y = position.y;
-
 		}
 
 		this.TileContainer.addChild(tile);
 		this.needToCheckMatches = true;
-
 	}
 
 
 	private construct(): void
 	{
-
 		this.Logo.smoothing = true;
 		this.addChild(this.Logo);
 
-		var font = Assets.getFont("fonts/FreebooterUpdated.ttf");
+		var font = Assets.getFont("fonts/Inter_18pt-Medium.ttf");
 		var defaultFormat = new TextFormat(font.fontName, 60, 0x000000);
 		defaultFormat.align = TextFormatAlign.RIGHT;
 
@@ -189,32 +178,26 @@ export class GameView extends Sprite
 		this.gameInput.addEventListener(GameInputEvent.DEVICE_ADDED, this.gameInput_onDeviceAdded);
 		this.gameInput.addEventListener(GameInputEvent.DEVICE_REMOVED, this.gameInput_onDeviceRemoved);
 		// #end
-
 	}
 
 
 	private dropTiles(): void
 	{
-
 		for (var column = 0; column < GameView.NUM_COLUMNS; column++)
 		{
-
 			var spaces = 0;
 
 			for (var row = 0; row < GameView.NUM_ROWS; row++)
 			{
-
 				var index = (GameView.NUM_ROWS - 1) - row;
 				var tile = this.tiles[index][column];
 
 				if (tile == null)
 				{
-
 					spaces++;
 
 				} else
 				{
-
 					if (spaces > 0)
 					{
 
@@ -228,27 +211,21 @@ export class GameView extends Sprite
 						this.needToCheckMatches = true;
 
 					}
-
 				}
 
 			}
 
 			for (var i = 0; i < spaces; i++)
 			{
-
 				var row = (spaces - 1) - i;
 				this.addTile(row, column);
-
 			}
-
 		}
-
 	}
 
 
 	private findMatches(byRow: boolean, accumulateScore: boolean = true): Array<Tile>
 	{
-
 		var matchedTiles = new Array<Tile>();
 
 		var max: number;
@@ -256,28 +233,22 @@ export class GameView extends Sprite
 
 		if (byRow)
 		{
-
 			max = GameView.NUM_ROWS;
 			secondMax = GameView.NUM_COLUMNS;
-
 		} else
 		{
-
 			max = GameView.NUM_COLUMNS;
 			secondMax = GameView.NUM_ROWS;
-
 		}
 
 		for (var index = 0; index < max; index++)
 		{
-
 			var matches = 0;
 			var foundTiles = new Array<Tile>();
 			var previousType = -1;
 
 			for (var secondIndex = 0; secondIndex < secondMax; secondIndex++)
 			{
-
 				var tile: Tile;
 
 				if (byRow)
@@ -362,29 +333,22 @@ export class GameView extends Sprite
 						foundTiles.push(tile);
 
 					}
-
 				}
-
 			}
-
 		}
 
 		return matchedTiles;
-
 	}
 
 
 	private getPosition(row: number, column: number): Point
 	{
-
 		return new Point(column * (57 + 16), row * (57 + 16));
-
 	}
 
 
 	private initialize(): void
 	{
-
 		this.currentScale = 1;
 		this.currentScore = 1000;
 
@@ -394,16 +358,12 @@ export class GameView extends Sprite
 
 		for (var row = 0; row < GameView.NUM_ROWS; row++)
 		{
-
 			this.tiles[row] = new Array<Tile>();
 
 			for (var column = 0; column < GameView.NUM_COLUMNS; column++)
 			{
-
 				this.tiles[row][column] = null;
-
 			}
-
 		}
 
 		this.Background = new Sprite();
@@ -412,13 +372,11 @@ export class GameView extends Sprite
 		this.TileContainer = new Sprite();
 		this.Cursor = new Bitmap(Assets.getBitmapData("images/cursor.png"));
 		this.CursorHighlight = new Bitmap(Assets.getBitmapData("images/cursor_highlight.png"));
-
 	}
 
 
 	private moveCursor(x: number, y: number, aPressed: boolean): void
 	{
-
 		if (this.cursorPosition == null) this.cursorPosition = new Point();
 
 		var oldTile = this.tiles[this.cursorPosition.y][this.cursorPosition.x];
@@ -435,7 +393,6 @@ export class GameView extends Sprite
 
 		if (tile != null)
 		{
-
 			this.Cursor.x = this.TileContainer.x + tile.x;
 			this.Cursor.y = this.TileContainer.y + tile.y;
 			this.CursorHighlight.x = this.Cursor.x;
@@ -447,40 +404,29 @@ export class GameView extends Sprite
 				this.swapTile(oldTile, this.cursorPosition.y, this.cursorPosition.x);
 
 			}
-
 		}
-
 	}
 
 
 	public newGame(): void
 	{
-
 		this.currentScore = 0;
 		this.Score.text = "0";
 
 		for (var row = 0; row < GameView.NUM_ROWS; row++)
 		{
-
 			for (var column = 0; column < GameView.NUM_COLUMNS; column++)
 			{
-
 				this.removeTile(row, column, false);
-
 			}
-
 		}
 
 		for (row = 0; row < GameView.NUM_ROWS; row++)
 		{
-
 			for (column = 0; column < GameView.NUM_COLUMNS; column++)
 			{
-
 				this.addTile(row, column, false);
-
 			}
-
 		}
 
 		//this.IntroSound.play();
@@ -497,25 +443,20 @@ export class GameView extends Sprite
 
 	public removeTile(row: number, column: number, animate: boolean = true): void
 	{
-
 		var tile = this.tiles[row][column];
 
 		if (tile != null)
 		{
-
 			tile.remove(animate);
 			this.usedTiles.push(tile);
-
 		}
 
 		this.tiles[row][column] = null;
-
 	}
 
 
 	public resize(newWidth: number, newHeight: number): void
 	{
-
 		var maxWidth = newWidth * 0.90;
 		var maxHeight = newHeight * 0.86;
 
@@ -528,20 +469,15 @@ export class GameView extends Sprite
 
 		if (currentWidth > maxWidth || currentHeight > maxHeight)
 		{
-
 			var maxScaleX = maxWidth / currentWidth;
 			var maxScaleY = maxHeight / currentHeight;
 
 			if (maxScaleX < maxScaleY)
 			{
-
 				this.currentScale = maxScaleX;
-
 			} else
 			{
-
 				this.currentScale = maxScaleY;
-
 			}
 
 			this.scaleX = this.currentScale;
@@ -559,18 +495,15 @@ export class GameView extends Sprite
 
 		if (targetColumn >= 0 && targetColumn < GameView.NUM_COLUMNS && targetRow >= 0 && targetRow < GameView.NUM_ROWS)
 		{
-
 			var targetTile = this.tiles[targetRow][targetColumn];
 
 			if (targetTile != null && !targetTile.moving)
 			{
-
 				this.tiles[targetRow][targetColumn] = tile;
 				this.tiles[tile.row][tile.column] = targetTile;
 
 				if (this.findMatches(true, false).length > 0 || this.findMatches(false, false).length > 0)
 				{
-
 					targetTile.row = tile.row;
 					targetTile.column = tile.column;
 					tile.row = targetRow;
@@ -585,7 +518,6 @@ export class GameView extends Sprite
 
 				} else
 				{
-
 					this.tiles[targetRow][targetColumn] = targetTile;
 					this.tiles[tile.row][tile.column] = tile;
 
@@ -600,41 +532,32 @@ export class GameView extends Sprite
 
 	private updateGamepadInput(): void
 	{
-
 		// 	#if (!flash || enable_gamepad_support)
 
 		for (var gamepad of this.gamepads)
 		{
-
 			gamepad.update();
-
 		}
 
 		if (this.gamepads.length > 0)
 		{
-
 			var aPressed = this.gamepads[0].a.pressed;
 
 			if (this.gamepads[0].up.justPressed)
 			{
-
 				this.moveCursor(0, -1, aPressed);
 
 			} else if (this.gamepads[0].down.justPressed)
 			{
-
 				this.moveCursor(0, 1, aPressed);
 
 			} else if (this.gamepads[0].left.justPressed)
 			{
-
 				this.moveCursor(-1, 0, aPressed);
 
 			} else if (this.gamepads[0].right.justPressed)
 			{
-
 				this.moveCursor(1, 0, aPressed);
-
 			}
 
 			this.Cursor.visible = !aPressed;
@@ -642,83 +565,54 @@ export class GameView extends Sprite
 
 		} else
 		{
-
 			this.Cursor.visible = false;
 			this.CursorHighlight.visible = false;
-
 		}
-
-		// 	#end
-
 	}
-
-
-
-
-	// Event Handlers
-
-
-
-
 
 	// #if (!flash || enable_gamepad_support)
 
 	private gameInput_onDeviceAdded = (event: GameInputEvent): void =>
 	{
-
 		var device = event.device;
 		device.enabled = true;
 
 		this.gamepads.push(new GamepadWrapper(device));
-
 	}
 
 
 	private gameInput_onDeviceRemoved = (event: GameInputEvent): void =>
 	{
-
 		var device = event.device;
 		device.enabled = false;
 
 		for (var gamepad of this.gamepads)
 		{
-
 			if (gamepad.device == device)
 			{
-
 				gamepad.destroy();
 
 				var index = this.gamepads.indexOf(gamepad);
 				if (index > -1) this.gamepads.splice(index, 1);
 				return;
-
 			}
-
 		}
-
 	}
-
-	// #end
-
 
 	private stage_onMouseUp = (event: MouseEvent): void =>
 	{
-
 		if (this.cacheMouse != null && this.selectedTile != null && !this.selectedTile.moving)
 		{
-
 			var differenceX = event.stageX - this.cacheMouse.x;
 			var differenceY = event.stageY - this.cacheMouse.y;
 
 			if (Math.abs(differenceX) > 10 || Math.abs(differenceY) > 10)
 			{
-
 				var swapToRow = this.selectedTile.row;
 				var swapToColumn = this.selectedTile.column;
 
 				if (Math.abs(differenceX) > Math.abs(differenceY))
 				{
-
 					if (differenceX < 0)
 					{
 
@@ -733,25 +627,17 @@ export class GameView extends Sprite
 
 				} else
 				{
-
 					if (differenceY < 0)
 					{
-
 						swapToRow--;
-
 					} else
 					{
-
 						swapToRow++;
-
 					}
 
 				}
-
 				this.swapTile(this.selectedTile, swapToRow, swapToColumn);
-
 			}
-
 		}
 
 		this.selectedTile = null;
@@ -762,12 +648,10 @@ export class GameView extends Sprite
 
 	private this_onEnterFrame = (event: Event): void =>
 	{
-
 		this.updateGamepadInput();
 
 		if (this.needToCheckMatches)
 		{
-
 			var matchedTiles = new Array<Tile>();
 
 			matchedTiles = matchedTiles.concat(this.findMatches(true));
@@ -775,45 +659,30 @@ export class GameView extends Sprite
 
 			for (var tile of matchedTiles)
 			{
-
 				this.removeTile(tile.row, tile.column);
-
 			}
 
 			if (matchedTiles.length > 0)
 			{
-
 				this.Score.text = String(this.currentScore);
 				this.dropTiles();
-
 			}
-
 		}
-
 	}
 
 
 	private TileContainer_onMouseDown = (event: MouseEvent): void =>
 	{
-
 		if (event.target instanceof Tile)
 		{
-
 			this.selectedTile = event.target;
 			this.cacheMouse = new Point(event.stageX, event.stageY);
-
 		} else
 		{
-
 			this.cacheMouse = null;
 			this.selectedTile = null;
-
 		}
-
 	}
-
-
 }
-
 
 export default GameView;
