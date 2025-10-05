@@ -21,6 +21,7 @@
     "vite": "6.2.4",
     "actuate": "^1.9.0",
     "copy-webpack-plugin": "^13.0.0",
+    "webpack-watch-files-plugin": "^1.2.1",
     "openfl": "9.4.1",
     "ts-loader": "^9.5.2",
     "webpack": "^5.99.8",

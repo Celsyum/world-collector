@@ -19,5 +19,9 @@
 			]
 		},
 		"sourceMap": false
-	}
+	},
+	"include": [
+		"**/*",
+		"./**/*.ts"
+	]
 }

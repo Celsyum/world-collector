@@ -25,16 +25,17 @@
   },
   "devDependencies": {
     "@types/express": "5.0.1",
-    "concurrently": "9.1.2",
-    "dotenv-cli": "8.0.0",
-    "typescript": "5.8.2",
-    "vite": "6.2.4",
     "actuate": "^1.9.0",
+    "concurrently": "9.1.2",
     "copy-webpack-plugin": "^13.0.0",
+    "dotenv-cli": "8.0.0",
     "openfl": "9.4.1",
     "ts-loader": "^9.5.2",
+    "typescript": "5.8.2",
+    "vite": "6.2.4",
     "webpack": "^5.99.8",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.1"
+    "webpack-dev-server": "^5.2.1",
+    "webpack-watch-files-plugin": "^1.2.1"
   }
 }

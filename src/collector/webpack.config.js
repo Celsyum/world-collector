@@ -1,5 +1,6 @@
 const path = require ("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const WatchExternalFilesPlugin = require('webpack-watch-files-plugin').default;
 
 module.exports = {
 	entry: "./app.ts",
@@ -10,10 +11,9 @@ module.exports = {
 	devServer: {
 
     static: './../client/public',
-
-  },
+     
+  	},
 	target: "web",
-	
 	resolve: {
 		alias: {
 			"openfl": path.resolve (__dirname, "../../node_modules/openfl/lib/openfl"),
@@ -34,6 +34,11 @@ module.exports = {
 			patterns: [
 				"public"
 			]
+		}),
+		new WatchExternalFilesPlugin({
+		files: [
+			"./**/*.ts"
+		]
 		})
 	],
 	performance: {
