@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"outDir": "../client/public",
+		"target": "es5",
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"paths": {
+			"openfl": [
+				"../../node_modules/openfl/lib/openfl"
+			],
+			"openfl/*": [
+				"../../node_modules/openfl/lib/openfl/*"
+			],
+			"motion": [
+				"../../node_modules/actuate/lib/motion"
+			],
+			"motion/*": [
+				"../../node_modules/actuate/lib/motion/*"
+			]
+		},
+		"sourceMap": false
+	}
+}

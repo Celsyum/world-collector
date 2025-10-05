@@ -1,0 +1,18 @@
+{
+  // Only build references.
+  "files": [],
+  "references": [
+    {
+      "path": "./src/collector"
+    },
+    {
+      "path": "./src/client"
+    },
+    {
+      "path": "./src/shared"
+    },
+    {
+      "path": "./src/server"
+    }
+  ]
+}
