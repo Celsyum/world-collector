@@ -46,19 +46,23 @@ router.get<
 
   try
   {
-    const [count, username] = await Promise.all([
-      redis.get("count"),
+    const [exp, level, username] = await Promise.all([
+      redis.get("exp"),
+      redis.get("level"),
       reddit.getCurrentUsername(),
     ]);
 
+    let initResp: InitResponse = {
+      postId: postId,
+      exp: exp ? parseInt(exp) : 1,
+      level: level ? parseInt(level) : 0,
+      next_level_exp: level ? (parseInt(level) + 1) * 100 : 100,
+      username: username ?? "anonymous",
+    };
     res.json({
       type: "init",
       status: "ok",
-      data: {
-        postId: postId,
-        count: count ? parseInt(count) : 0,
-        username: username ?? "anonymous",
-      },
+      data: initResp,
     });
   } catch (error)
   {
@@ -124,6 +128,9 @@ router.post<
     } as DecrementResponse,
   });
 });
+
+
+// Internal Devvit routes for app installation and menu actions
 
 router.post("/internal/on-app-install", async (_req, res): Promise<void> =>
 {

@@ -8,7 +8,9 @@ export type ApiResponse = {
 // type: "init""
 export type InitResponse = {
   postId: string;
-  count: number;
+  exp: number;
+  level: number;
+  next_level_exp: number;
   username: string;
 };
 
