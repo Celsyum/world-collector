@@ -1,6 +1,7 @@
 import EventDispatcher from "openfl/events/EventDispatcher";
-import ExternalInterface from "openfl/external/ExternalInterface"
+//import ExternalInterface from "openfl/external/ExternalInterface"
 import { ApiResponse, InitResponse } from "../../shared/types/api";
+import Event from "openfl/events/Event";
 
 export class ApiHandler extends EventDispatcher
 {
@@ -15,31 +16,49 @@ export class ApiHandler extends EventDispatcher
         }
     }
 
-    private handleMessage(msg: any): void
+    private handleMessage(resp: ApiResponse): void
     {
-        let resp = msg as ApiResponse;
         switch (resp.type)
         {
-            case "init":
-                let initData = resp.data as InitResponse;
-                console.log("Init data received!: " + JSON.stringify(initData));
+            case "init": //callback ApiHandler.ON_INIT
+                console.log("Init data received!: " + JSON.stringify(resp));
+                this.dispatchEvent(new InitEvent(resp));
+                break;
+            case "error":
+                console.log("API Error: " + resp.message);
+                break;
         }
-        //this.dispatchEvent(new (openfl.events.Event as any)(ApiHandler.ON_INIT));
     }
 
-    public call(): void
+    public call(event: string): void
     {
-        if (ExternalInterface.available)
+        //if (ExternalInterface.available)
+        //{
+        try
         {
-            console.log("Interface available");
-            try
+            switch (event)
             {
-                (window as any).collectorMessage("Hello from TypeScript!");
+                case ApiHandler.ON_INIT:
+                    (window as any).apiCall("/api/init", "GET");
+                    //ExternalInterface.call("fetchInit");
+                    break;
             }
-            catch (e: any)
-            {
-                console.log("Error calling JavaScript function: " + e.message);
-            }
-        } else console.log("Interface not available");
+        }
+        catch (e: any)
+        {
+            console.log("Error calling JavaScript function: " + e.message);
+        }
+        //} else console.log("Interface not available");
+    }
+}
+
+export class InitEvent extends Event
+{
+    public response: InitResponse;
+
+    public constructor(resp: ApiResponse)
+    {
+        super(ApiHandler.ON_INIT);
+        this.response = resp.data as InitResponse;
     }
 }
