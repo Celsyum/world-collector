@@ -142,7 +142,7 @@ export class GameView extends Sprite
 		//Score.filters = [ new BlurFilter (1.5, 1.5), new DropShadowFilter (1, 45, 0, 0.2, 5, 5) ];
 
 		this.Score.embedFonts = true;
-		this.addChild(this.Score);
+		//this.addChild(this.Score);
 
 		this.Background.y = 85;
 		this.Background.graphics.beginFill(0xFFFFFF, 0.4);
@@ -155,7 +155,7 @@ export class GameView extends Sprite
 		this.TileContainer.y = this.Background.y + 14;
 		this.TileContainer.addEventListener(MouseEvent.MOUSE_DOWN, this.TileContainer_onMouseDown);
 		Lib.current.stage.addEventListener(MouseEvent.MOUSE_UP, this.stage_onMouseUp);
-		this.addChild(this.TileContainer);
+		//this.addChild(this.TileContainer);
 
 		this.IntroSound = Assets.getSound("soundTheme");
 		this.Sound3 = Assets.getSound("sound3");

@@ -1,18 +1,25 @@
+export type ApiResponse = {
+  status: "ok" | "error";
+  type: string;
+  message?: string;
+  data?: InitResponse | IncrementResponse | DecrementResponse;
+}
+
+// type: "init""
 export type InitResponse = {
-  type: "init";
   postId: string;
   count: number;
   username: string;
 };
 
+// type: "increment"
 export type IncrementResponse = {
-  type: "increment";
   postId: string;
   count: number;
 };
 
+// type: "decrement"
 export type DecrementResponse = {
-  type: "decrement";
   postId: string;
   count: number;
 };

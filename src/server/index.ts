@@ -4,6 +4,7 @@ import
   InitResponse,
   IncrementResponse,
   DecrementResponse,
+  ApiResponse,
 } from "../shared/types/api";
 import
 {
@@ -26,7 +27,9 @@ app.use(express.text());
 
 const router = express.Router();
 
-router.get<{ postId: string }, InitResponse | { status: string; message: string }>("/api/init", async (_req, res): Promise<void> =>
+router.get<
+  { postId: string }, ApiResponse | { status: "error" | "ok", type: string, message?: string, data?: InitResponse }
+>("/api/init", async (_req, res): Promise<void> =>
 {
   const { postId } = context;
 
@@ -35,7 +38,8 @@ router.get<{ postId: string }, InitResponse | { status: string; message: string 
     console.error("API Init Error: postId not found in devvit context");
     res.status(400).json({
       status: "error",
-      message: "postId is required but missing from context",
+      type: "init",
+      message: "postId is required but missing from context"
     });
     return;
   }
@@ -49,9 +53,12 @@ router.get<{ postId: string }, InitResponse | { status: string; message: string 
 
     res.json({
       type: "init",
-      postId: postId,
-      count: count ? parseInt(count) : 0,
-      username: username ?? "anonymous",
+      status: "ok",
+      data: {
+        postId: postId,
+        count: count ? parseInt(count) : 0,
+        username: username ?? "anonymous",
+      },
     });
   } catch (error)
   {
@@ -61,13 +68,12 @@ router.get<{ postId: string }, InitResponse | { status: string; message: string 
     {
       errorMessage = `Initialization failed: ${error.message}`;
     }
-    res.status(400).json({ status: "error", message: errorMessage });
+    res.status(400).json({ type: "init", status: "error", message: errorMessage });
   }
 });
 
 router.post<
-  { postId: string },
-  IncrementResponse | { status: string; message: string },
+  { postId: string }, ApiResponse | { status: "error" | "ok", type: string, message?: string, data?: IncrementResponse },
   unknown
 >("/api/increment", async (_req, res): Promise<void> =>
 {
@@ -75,6 +81,7 @@ router.post<
   if (!postId)
   {
     res.status(400).json({
+      type: "increment",
       status: "error",
       message: "postId is required",
     });
@@ -82,15 +89,18 @@ router.post<
   }
 
   res.json({
-    count: await redis.incrBy("count", 1),
-    postId,
     type: "increment",
+    status: "ok",
+    data: {
+
+      count: await redis.incrBy("count", 1),
+      postId,
+    } as IncrementResponse,
   });
 });
 
 router.post<
-  { postId: string },
-  DecrementResponse | { status: string; message: string },
+  { postId: string }, ApiResponse | { status: "error" | "ok", type: string, message?: string, data?: DecrementResponse },
   unknown
 >("/api/decrement", async (_req, res): Promise<void> =>
 {
@@ -98,6 +108,7 @@ router.post<
   if (!postId)
   {
     res.status(400).json({
+      type: "decrement",
       status: "error",
       message: "postId is required",
     });
@@ -105,9 +116,12 @@ router.post<
   }
 
   res.json({
-    count: await redis.incrBy("count", -1),
-    postId,
     type: "decrement",
+    status: "ok",
+    data: {
+      count: await redis.incrBy("count", -1),
+      postId,
+    } as DecrementResponse,
   });
 });
 

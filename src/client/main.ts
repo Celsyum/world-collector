@@ -1,15 +1,13 @@
-/*
+
 import
 {
-  InitResponse,
+  ApiResponse,
 } from "../shared/types/api";
 //import { navigateTo } from "@devvit/web/client";
 
 const counterValueElement = document.getElementById(
   "counter-value"
 ) as HTMLSpanElement;
-*/
-
 
 /*
 const incrementButton = document.getElementById(
@@ -33,37 +31,34 @@ docsLink.addEventListener("click", () =>
 
 //let currentPostId: string | null = null;
 
-/*
-async function fetchInitialCount()
+
+async function fetchInit()
 {
   try
   {
     const response = await fetch("/api/init");
     if (!response.ok)
     {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error status: ${response.status}`);
     }
-    const data = (await response.json()) as InitResponse;
-    if (data.type === "init")
-    {
-      counterValueElement.textContent = data.count.toString();
-      currentPostId = data.postId; // Store postId for later use
-      console.log("Hello::: " + data.username);
-      (window as any).collectorApp.htmlCallback(data.username);
-
-      titleElement.textContent = `Hey ${data.username} 👋`;
-    } else
-    {
-      console.error("Invalid  response type from /api/init", data);
-      counterValueElement.textContent = "Error";
-    }
+    const data = (await response.json()) as ApiResponse;
+    (window as any).collectorApp.message(data);
   } catch (error)
   {
     console.error("Error fetching initial count:", error);
     counterValueElement.textContent = "Error";
   }
 }
-*/
+
+//@ts-ignore
+function collectorMessage(data: any): void
+{
+  console.log("Collector message received: " + data);
+  //swith ant test
+}
+
+(window as any).collectorMessage = collectorMessage;
+
 
 async function apiCall(endpoint: string, method: "POST" | "GET", callback: (data: any, error?: string | null) => void)
 {
@@ -124,4 +119,4 @@ async function updateCounter(action: "increment" | "decrement")
 //decrementButton.addEventListener("click", () => updateCounter("decrement"));
 
 // Fetch the initial count when the page loads
-//fetchInitialCount();
+fetchInit();

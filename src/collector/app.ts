@@ -30,7 +30,7 @@ class Main extends Sprite
 			manifest.addSound(["sounds/" + sound + ".ogg", "sounds/" + sound + ".mp3", "sounds/" + sound + ".wav"], id);
 
 		}
-		manifest.addFont("Freebooter", "fonts/FreebooterUpdated.ttf");
+		manifest.addFont("Freebooter", "fonts/Inter_18pt-Medium.ttf");
 
 		AssetLibrary.loadFromManifest(manifest).onComplete((library) =>
 		{

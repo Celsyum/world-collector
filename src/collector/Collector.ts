@@ -8,7 +8,8 @@ import Assets from "openfl/utils/Assets";
 import Lib from "openfl/Lib";
 import GameView from "./GameView";
 import e = require("express");
-import MovieClip from "openfl/display/MovieClip";
+import { ApiHandler } from "./handlers/ApiHandler";
+import { UIView } from "./UIView";
 
 
 export class Collector extends Sprite
@@ -16,13 +17,13 @@ export class Collector extends Sprite
 	private Background: Bitmap;
 	private Footer: Bitmap;
 	private Game: GameView;
-
+	private UI: UIView;
+	private ApiHandler: ApiHandler;
 
 	public constructor()
 	{
 
 		super();
-		let ttet: MovieClip
 		this.addEventListener(Event.ADDED_TO_STAGE, (_) =>
 		{
 			this.initialize();
@@ -41,14 +42,17 @@ export class Collector extends Sprite
 		this.addChild(this.Background);
 		this.addChild(this.Footer);
 		this.addChild(this.Game);
+		this.addChild(this.UI);
 	}
 
 
 	private initialize(): void
 	{
+		this.ApiHandler = new ApiHandler();
 		this.Background = new Bitmap(Assets.getBitmapData("images/background_tile.png"));
 		this.Footer = new Bitmap(Assets.getBitmapData("images/center_bottom.png"));
 		this.Game = new GameView();
+		this.UI = new UIView(this.ApiHandler);
 	}
 
 	private resize(newWidth: number, newHeight: number): void
@@ -57,6 +61,7 @@ export class Collector extends Sprite
 		this.Background.height = newHeight;
 
 		this.Game.resize(newWidth, newHeight);
+		this.UI.resize(newWidth, newHeight);
 
 		this.Footer.scaleX = this.Game.currentScale;
 		this.Footer.scaleY = this.Game.currentScale;
